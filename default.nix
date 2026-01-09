@@ -34,7 +34,14 @@ stdenv.mkDerivation rec {
   # We run the dtc commands manually with the correct paths.
   buildPhase = ''
     runHook preBuild
-    dtc -@ -I dts -O dtb -o vc4-kms-dpi-hyperpixel4.dtbo src/vc4-kms-dpi-hyperpixel4-overlay.dts
+
+    # Define the full, correct path to the kernel's include directory
+    CPP_INCLUDE_PATH="${kernel.dev}/lib/modules/${kernel.version}/source/include"
+
+    cpp -nostdinc -I . -I $CPP_INCLUDE_PATH -undef -x assembler-with-cpp \
+      vc4-kms-dpi-hyperpixel4-overlay.dts > preprocessed.dts
+    dtc -@ -O dtb -o vc4-kms-dpi-hyperpixel4.dtbo preprocessed.dts
+
     runHook postBuild
   '';
 
