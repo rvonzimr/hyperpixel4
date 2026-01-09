@@ -1,11 +1,9 @@
 {
   stdenv,
-  fetchgit,
   dtc,
   python3,
 }:
 let
-  fixed_dts = builtins.trace "what is going on? ${./fixed-touch-overlay.dts}" ./fixed-touch-overlay.dts;
 in
 stdenv.mkDerivation rec {
   pname = "hyperpixel4";

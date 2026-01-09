@@ -58,7 +58,7 @@ in
     hardware.deviceTree.overlays = [
       {
         name = "hyperpixel4-touch";
-        dtboFile = "${hyperpixel4-pkg}/lib/firmware/hyperpixel4-touch.dtbo";
+        dtboFile = "${hyperpixel4-pkg}/lib/firmware/hyperpixel4-touch-overlay.dtbo";
       }
       {
         name = "vc4-kms-dpi-hyperpixel4";
