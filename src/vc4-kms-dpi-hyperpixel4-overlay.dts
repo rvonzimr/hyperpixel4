@@ -1,36 +1,57 @@
+/*
+ * vc4-kms-dpi-hyperpixel4-overlay.dts
+ */
+
 /dts-v1/;
 /plugin/;
 
+#include "vc4-kms-dpi-hyperpixel.dtsi"
+
+&panel {
+	compatible = "pimoroni,hyperpixel4";
+};
+
 / {
-    compatible = "brcm,bcm2711";
+	fragment@11 {
+		target = <&i2c_gpio>;
+		__overlay__ {
+			/* needed to avoid dtc warning */
+			#address-cells = <1>;
+			#size-cells = <0>;
+			ft6236_14: ft6236@14 {
+				compatible = "goodix,gt911";
+				reg = <0x14>;
+				interrupt-parent = <&gpio>;
+				interrupts = <27 2>;
+				touchscreen-size-x = <480>;
+				touchscreen-size-y = <800>;
+				touchscreen-x-mm = <51>;
+				touchscreen-y-mm = <85>;
+				touchscreen-inverted-y;
+				touchscreen-swapped-x-y;
+			};
+			ft6236_5d: ft6236@5d {
+				compatible = "goodix,gt911";
+				reg = <0x5d>;
+				interrupt-parent = <&gpio>;
+				interrupts = <27 2>;
+				touchscreen-size-x = <480>;
+				touchscreen-size-y = <800>;
+				touchscreen-x-mm = <51>;
+				touchscreen-y-mm = <85>;
+				touchscreen-inverted-y;
+				touchscreen-swapped-x-y;
+			};
+		};
+	};
 
-    fragment@0 {
-        target-path = "/";
-        __overlay__ {
-            panel: panel {
-		compatible = "pimoroni,hyperpixel4";
-
-                port {
-                    panel_in: endpoint {
-                        remote-endpoint = <&dpi_out>;
-                    };
-                };
-            };
-        };
-    };
-    fragment@1 {
-        target = <&dpi>;
-        __overlay__  {
-            status = "okay";
-
-            pinctrl-names = "default";
-            pinctrl-0 = <&dpi_18bit_cpadhi_gpio0>;
-
-            port {
-                dpi_out: endpoint {
-                    remote-endpoint = <&panel_in>;
-                };
-            };
-        };
-    };
+	__overrides__ {
+		disable-touch = <0>,"-3-11";
+		touchscreen-inverted-x = <&ft6236_14>,"touchscreen-inverted-x?",
+					 <&ft6236_5d>,"touchscreen-inverted-x?";
+		touchscreen-inverted-y = <&ft6236_14>,"touchscreen-inverted-y!",
+					 <&ft6236_5d>,"touchscreen-inverted-y!";
+		touchscreen-swapped-x-y = <&ft6236_14>,"touchscreen-swapped-x-y!",
+					  <&ft6236_5d>,"touchscreen-swapped-x-y!";
+	};
 };

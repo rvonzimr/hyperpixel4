@@ -25,29 +25,19 @@ in
     # Add the package's binaries to the system's global path
     environment.systemPackages = [ hyperpixel4-pkg ];
 
-    # Add the non-overlay boot configuration settings
+    # Enable the main vc4-kms-v3d graphics driver (a dependency)
+    # and the DPI output.
     hardware.raspberry-pi.config = {
       "all" = {
+        dt-overlays = {
+          "vc4-kms-v3d" = {
+            enable = true;
+          };
+        };
         options = {
           enable_dpi_lcd = {
             enable = true;
             value = 1;
-          };
-          dpi_group = {
-            enable = true;
-            value = 2;
-          };
-          dpi_mode = {
-            enable = true;
-            value = 87;
-          };
-          dpi_output_format = {
-            enable = true;
-            value = "0x7f216";
-          };
-          dpi_timings = {
-            enable = true;
-            value = "480 0 10 16 59 800 0 15 113 15 0 0 0 60 0 32000000 6";
           };
         };
       };

@@ -20,10 +20,6 @@ stdenv.mkDerivation rec {
   passthru = {
     overlays = [
       {
-        name = "hyperpixel4-touch";
-        fileName = "hyperpixel4-touch-overlay.dtbo";
-      }
-      {
         name = "vc4-kms-dpi-hyperpixel4";
         fileName = "vc4-kms-dpi-hyperpixel4.dtbo";
       }
@@ -34,8 +30,7 @@ stdenv.mkDerivation rec {
   # We run the dtc commands manually with the correct paths.
   buildPhase = ''
     runHook preBuild
-    dtc -@ -I dts -O dtb -Wno-unit_address_vs_reg -o src/hyperpixel4-touch-overlay.dtbo src/hyperpixel4-touch-overlay.dts
-    dtc -@ -I dts -O dtb -Wno-unit_address_vs_reg -o src/vc4-kms-dpi-hyperpixel4.dtbo src/vc4-kms-dpi-hyperpixel4-overlay.dts
+    dtc -@ -I dts -O dtb -o vc4-kms-dpi-hyperpixel4.dtbo vc4-kms-dpi-hyperpixel4-overlay.dts
     runHook postBuild
   '';
 
