@@ -2,6 +2,7 @@
   stdenv,
   dtc,
   python3,
+  kernel,
 }:
 let
 in
@@ -11,7 +12,10 @@ stdenv.mkDerivation rec {
 
   src = ./.;
 
-  nativeBuildInputs = [ dtc ];
+  nativeBuildInputs = [
+    dtc
+    kernel
+  ];
 
   pythonEnv = python3.withPackages (ps: [
     ps.rpi-gpio
@@ -30,7 +34,7 @@ stdenv.mkDerivation rec {
   # We run the dtc commands manually with the correct paths.
   buildPhase = ''
     runHook preBuild
-    dtc -@ -I dts -O dtb -o vc4-kms-dpi-hyperpixel4.dtbo vc4-kms-dpi-hyperpixel4-overlay.dts
+    dtc -@ -I dts -O dtb -o vc4-kms-dpi-hyperpixel4.dtbo src/vc4-kms-dpi-hyperpixel4-overlay.dts
     runHook postBuild
   '';
 

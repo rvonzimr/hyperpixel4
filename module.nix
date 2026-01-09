@@ -11,8 +11,10 @@ with lib;
 let
   cfg = config.hardware.hyperpixel4;
 
-  # Import the package derivation from the separate default.nix file
-  hyperpixel4-pkg = pkgs.callPackage ./default.nix { };
+  # Import the package derivation, passing the correct kernel from the NixOS config
+  hyperpixel4-pkg = pkgs.callPackage ./default.nix {
+    kernel = config.boot.kernelPackages.kernel;
+  };
 
 in
 {
