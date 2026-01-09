@@ -17,6 +17,19 @@ stdenv.mkDerivation rec {
     ps.rpi-gpio
   ]);
 
+  passthru = {
+    overlays = [
+      {
+        name = "hyperpixel4-touch";
+        fileName = "hyperpixel4-touch-overlay.dtbo";
+      }
+      {
+        name = "vc4-kms-dpi-hyperpixel4";
+        fileName = "vc4-kms-dpi-hyperpixel4.dtbo";
+      }
+    ];
+  };
+
   # The Makefile in this branch is broken and refers to incorrect filenames.
   # We run the dtc commands manually with the correct paths.
   buildPhase = ''

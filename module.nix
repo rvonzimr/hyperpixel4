@@ -55,16 +55,10 @@ in
 
     # Enable and apply the custom device tree overlays from our package
     hardware.deviceTree.enable = true;
-    hardware.deviceTree.overlays = [
-      {
-        name = "hyperpixel4-touch";
-        dtboFile = "${hyperpixel4-pkg}/lib/firmware/hyperpixel4-touch-overlay.dtbo";
-      }
-      {
-        name = "vc4-kms-dpi-hyperpixel4";
-        dtboFile = "${hyperpixel4-pkg}/lib/firmware/vc4-kms-dpi-hyperpixel4.dtbo";
-      }
-    ];
+    hardware.deviceTree.overlays = map (overlay: {
+      name = overlay.name;
+      dtboFile = "${hyperpixel4-pkg}/lib/firmware/${overlay.fileName}";
+    }) hyperpixel4-pkg.overlays;
 
     # Define and enable the systemd service for display initialization
     systemd.services.hyperpixel4-init = {
