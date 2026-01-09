@@ -2,7 +2,7 @@
 /plugin/;
 
 / {
-    compatible = "brcm,bcm2835";
+    compatible = "brcm,bcm2711";
 
     fragment@0 {
         target-path = "/";
@@ -55,5 +55,13 @@
                 };
             };
         };
+    };
+    __overrides__ {
+        touchscreen-inverted-x = <&ft6236_14>,"touchscreen-inverted-x?",
+                                 <&ft6236_5d>,"touchscreen-inverted-x?";
+        touchscreen-inverted-y = <&ft6236_14>,"touchscreen-inverted-y!",
+                                 <&ft6236_5d>,"touchscreen-inverted-y!";
+        touchscreen-swapped-x-y = <&ft6236_14>,"touchscreen-swapped-x-y!",
+                                  <&ft6236_5d>,"touchscreen-swapped-x-y!";
     };
 };
