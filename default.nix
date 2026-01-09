@@ -39,8 +39,8 @@ stdenv.mkDerivation rec {
     CPP_INCLUDE_PATH="${kernel.dev}/lib/modules/${kernel.version}/source/include"
 
     cpp -nostdinc -I . -I $CPP_INCLUDE_PATH -undef -x assembler-with-cpp \
-      vc4-kms-dpi-hyperpixel4-overlay.dts > preprocessed.dts
-    dtc -@ -O dtb -o vc4-kms-dpi-hyperpixel4.dtbo preprocessed.dts
+      src/vc4-kms-dpi-hyperpixel4-overlay.dts > src/preprocessed.dts
+    dtc -@ -O dtb -o src/vc4-kms-dpi-hyperpixel4.dtbo src/preprocessed.dts
 
     runHook postBuild
   '';
